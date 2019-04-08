@@ -11,4 +11,5 @@ int main(void){
     printf(weekday(day=0));
     *(weekday(day)+1)='u'; 
     getchar();
+    return 0;
 }
