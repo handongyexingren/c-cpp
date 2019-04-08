@@ -1,0 +1,14 @@
+{
+    "name": "Win32",
+    "includePath": [
+        "E:/Program Files/CodeBlocks/MinGW/include/*",
+        "E:/Program Files/CodeBlocks/MinGW/lib/gcc/mingw32/4.9.2/include/*",
+        "E:/Program Files/CodeBlocks/MinGW/gcc/mingw32/4.9.2/include/c++/*",
+        "E:/Program Files/CodeBlocks/MinGW/gcc/mingw32/4.9.2/include/c++/mingw32/*",
+        "E:/Program Files/CodeBlocks/MinGW/lib/gcc/mingw32/4.9.2/include/c++/backward/*"
+    ],
+    "browse": {
+        "limitSymbolsToIncludedHeaders": true,
+        "databaseFilename": ""
+    }
+}
