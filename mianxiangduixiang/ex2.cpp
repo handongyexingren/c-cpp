@@ -21,8 +21,9 @@ void print( ) const;		//打印栈
 STACK::STACK(int m):max(m),elems(new int(m)){
 	pos=0;
 }
-STACK::STACK(const STACK&s):max(s.max),elems(s.elems){
+STACK::STACK(const STACK&s):max(s.max),elems(new int(s.max)){
 	pos=0;
+	for(;pos<)
 }
 int STACK::size() const{
 	return max;
