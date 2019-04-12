@@ -5,6 +5,7 @@
 #define ERROR 0
 int FALSE=-1;
 int OK=1;
+int empty=0;
 
 typedef int elemtype;
 typedef struct STACK{
@@ -19,7 +20,7 @@ int  howMany (const STACK *const p);	//返回p指向的栈的实际元素个数pos
 int  getelem (const STACK *const p, int x);	//取下标x处的栈元素
 STACK *const push(STACK *const p, int e); 	//将e入栈，并返回p
 STACK *const pop(STACK *const p, int *e); 	//出栈到e，并返回p
-STACK *const assign(STACK*const p, const STACK&s); //赋s给p指的栈,并返回p
+STACK *const assign(STACK*const p, const STACK*s); //赋s给p指的栈,并返回p
 int print(const STACK*const p);			//打印p指向的栈
 void destroySTACK(STACK*const p);		//销毁p指向的栈  
 int main(){
@@ -80,9 +81,12 @@ int main(){
                 printf("请输入想输出的元素次序：");
                 scanf("%d",&i);
                 if((glm=getelem(p,i))==FALSE){
-                        printf("该次序的数不存在或者栈未初始化！");
+                        printf("栈未初始化！");
                         getchar();getchar();
                         break;
+                }
+                else if(glm=empty){
+                        printf("栈为空！");
                 }
                 else {
                         printf("第%d个元素值为：%d",i,glm);
@@ -91,7 +95,6 @@ int main(){
                 break;
                 case 6:
                 int e;
-                scanf("%d",&e);
                 if(push(p,e)==ERROR){
                         printf("栈满，无法入栈！");
                         getchar();getchar();
@@ -99,6 +102,7 @@ int main(){
                 }
                 else{
                         printf("请输入要入栈的元素：");
+                        scanf("%d",&e);
                         printf("入栈成功！");
                 }
                 getchar();getchar();
@@ -116,10 +120,19 @@ int main(){
                 getchar();getchar();
                 break;
                 case 8:
+                assign()
+                printf("assign成功");
+                if()
                 break;
                 case 9:
-                if(print(p)==FALSE){
+                int pr;
+                if((pr=print(p))==FALSE){
                         printf("请初始化栈！");
+                        getchar();getchar();
+                        break;
+                }
+                else if(pr==empty){
+                        printf("栈为空！");
                         getchar();getchar();
                         break;
                 }
@@ -167,14 +180,26 @@ int  howMany (const STACK *const p){
         }
 }
 int  getelem (const STACK *const p, int x){
-        if(x<1||x>p->pos||!(p->max)){     //这里把数组中下表为零的元素作为第一个元素，因此x可以等于pos
-        return FALSE;}
+        if(x<1){ 
+                printf("出错，次序不能小于1。请重新输入：");
+                for(;x<1;){
+                        scanf("%d",&x);
+                }                    //这里把数组中下表为零的元素作为第一个元素，因此x可以等于pos
+        else if(!(p->max)){
+                return FALSE;
+        }
+        else if(!(p->pos)){
+                return empty;
+                }
         else{
                 return (*(p->elems+x-1));
         }
 }
 STACK *const push(STACK *const p, int e){
-        if((p->pos)>=(p->max)){  //max  is 1...n,while pos is 0...n-1
+        if(!(p->max)){
+                return FALSE;
+        }
+        else if((p->pos)>=(p->max)){  //max  is 1...n,while pos is 0...n-1
                 return ERROR;
         }
         else {
@@ -190,21 +215,22 @@ STACK *const pop(STACK *const p, int *e){
         }
         return p;
 }
-/*STACK *const assign(STACK*const p, const STACK* s){
-        if(p->elems==0){
-                p->elems=(elemtype*)malloc((s.max)*sizeof(elemtype));
-        }
-        p=&s;
+STACK *const assign(STACK*const p, const STACK* s){
+        p=s;
         return p;
-}*/
+}
 int print(const STACK*const p){
-        if(p){
+        if(!(p->max)){
+                return FALSE;
+        }
+        else if(!(p->pos)){
+                return empty;
+        }
+        else{
         for(int i=0;i<p->pos;i++){
                 printf("%d",*(p->elems+i));
         }
         }
-        else{
-        return FALSE;}
 }
 void destroySTACK(STACK*const p){
         free(p->elems);
