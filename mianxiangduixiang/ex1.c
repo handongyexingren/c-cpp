@@ -2,99 +2,116 @@
 #include <stdlib.h>
 #include <malloc.h>
 
-#define FALSE 0
-#define OK 1
+#define ERROR 0
+int FALSE=-1;
+int OK=1;
 
 typedef int elemtype;
 typedef struct STACK{
-    int  *elems;	//ç”³è¯·å†…å­˜ç”¨äºå­˜æ”¾æ ˆçš„å…ƒç´ 
-    int   max;	//æ ˆèƒ½å­˜æ”¾çš„æœ€å¤§å…ƒç´ ä¸ªæ•°
-    int   pos;	//æ ˆå®é™…å·²æœ‰å…ƒç´ ä¸ªæ•°ï¼Œæ ˆç©ºæ—¶pos=0;
+    int  *elems;	//ÉêÇëÄÚ´æÓÃÓÚ´æ·ÅÕ»µÄÔªËØ
+    int   max;	//Õ»ÄÜ´æ·ÅµÄ×î´óÔªËØ¸öÊı
+    int   pos;	//Õ»Êµ¼ÊÒÑÓĞÔªËØ¸öÊı£¬Õ»¿ÕÊ±pos=0;
 }STACK,stack,*L;
-int initSTACK(STACK *const p, int m);	//åˆå§‹åŒ–pæŒ‡å‘çš„æ ˆï¼šæœ€å¤šmä¸ªå…ƒç´ 
-int initSTACK(STACK *const p, const STACK&s); //ç”¨æ ˆsåˆå§‹åŒ–pæŒ‡å‘çš„æ ˆ
-int  size (const STACK *const p);		//è¿”å›pæŒ‡å‘çš„æ ˆçš„æœ€å¤§å…ƒç´ ä¸ªæ•°max
-int  howMany (const STACK *const p);	//è¿”å›pæŒ‡å‘çš„æ ˆçš„å®é™…å…ƒç´ ä¸ªæ•°pos
-int  getelem (const STACK *const p, int x);	//å–ä¸‹æ ‡xå¤„çš„æ ˆå…ƒç´ 
-STACK *const push(STACK *const p, int e); 	//å°†eå…¥æ ˆï¼Œå¹¶è¿”å›p
-STACK *const pop(STACK *const p, int &e); 	//å‡ºæ ˆåˆ°eï¼Œå¹¶è¿”å›p
-STACK *const assign(STACK*const p, const STACK&s); //èµ‹sç»™pæŒ‡çš„æ ˆ,å¹¶è¿”å›p
-int print(const STACK*const p);			//æ‰“å°pæŒ‡å‘çš„æ ˆ
-void destroySTACK(STACK*const p);		//é”€æ¯pæŒ‡å‘çš„æ ˆ  
+int initSTACK(STACK *const p, int m);	//³õÊ¼»¯pÖ¸ÏòµÄÕ»£º×î¶àm¸öÔªËØ
+int initSTACK(STACK *const p, const STACK *s); //ÓÃÕ»s³õÊ¼»¯pÖ¸ÏòµÄÕ»
+int  size (const STACK *const p);		//·µ»ØpÖ¸ÏòµÄÕ»µÄ×î´óÔªËØ¸öÊımax
+int  howMany (const STACK *const p);	//·µ»ØpÖ¸ÏòµÄÕ»µÄÊµ¼ÊÔªËØ¸öÊıpos
+int  getelem (const STACK *const p, int x);	//È¡ÏÂ±êx´¦µÄÕ»ÔªËØ
+STACK *const push(STACK *const p, int e); 	//½«eÈëÕ»£¬²¢·µ»Øp
+STACK *const pop(STACK *const p, int *e); 	//³öÕ»µ½e£¬²¢·µ»Øp
+STACK *const assign(STACK*const p, const STACK&s); //¸³s¸øpÖ¸µÄÕ»,²¢·µ»Øp
+int print(const STACK*const p);			//´òÓ¡pÖ¸ÏòµÄÕ»
+void destroySTACK(STACK*const p);		//Ïú»ÙpÖ¸ÏòµÄÕ»  
 int main(){
-        stack s,q;
-        L p=&q;
+        stack q,s;
+        L p=&q,r=&s;
         p->max=0;
         p->pos=0;
-        s.max=0;
-        s.pos=0;
-        int m,i,o;
+        r->max=0;
+        r->pos=0;
         int op=1;
         while(op){
+                system("cls");
                 printf("--------************************---------\n");
-                printf("\t 1.åˆå§‹åŒ–æ ˆ           2.æœ€å¤§å…ƒç´ \n");
-                printf("\t 3.æœ€å¤§å…ƒç´ ä¸ªæ•°        4.å®é™…å…ƒç´ ä¸ªæ•°\n");
-                printf("\t 5.å–å…ƒç´              6.å…¥æ ˆ\n");
-                printf("\t 7.å‡ºæ ˆ               8.assign\n"); 
-                printf("\t 9.é”€æ¯æ ˆ             0.é”€æ¯æ ˆ\n");
+                printf("\t 1.³õÊ¼»¯Õ»           2.×î´óÔªËØ\n");
+                printf("\t 3.×î´óÔªËØ¸öÊı        4.Êµ¼ÊÔªËØ¸öÊı\n");
+                printf("\t 5.È¡ÔªËØ             6.ÈëÕ»\n");
+                printf("\t 7.³öÕ»               8.assign\n"); 
+                printf("\t 9.´òÓ¡Õ»             10.Ïú»ÙÕ»\n");
                 scanf("%d",&op);
         switch(op){
                 case 1:
-                printf("è¯·è¾“å…¥æ ˆå¤§å°ï¼š");
+                int m;
+                printf("ÇëÊäÈëÕ»´óĞ¡£º");
                 scanf("%d",&m);
                 if(initSTACK(p,m)==OK){
-                        printf("æ ˆåˆå§‹åŒ–æˆåŠŸ");
+                        printf("Õ»³õÊ¼»¯³É¹¦£¡\n");
                 }
-                else printf("æ ˆåˆå§‹åŒ–å¤±è´¥ï¼");
+                else printf("Õ»³õÊ¼»¯Ê§°Ü£¡\n");
                 getchar();getchar();
                 break;
                 case 2:
                 break;
                 case 3:
-                if(int x=size(p)==FALSE){
-                        printf("è¯·åˆå§‹åŒ–æ ˆï¼");
+                int siz;
+                if((siz=size(p))==FALSE){
+                        printf("Çë³õÊ¼»¯Õ»£¡");
+                        getchar();getchar();
+                        break;
                 }
-                else printf("æ ˆå…è®¸å­˜å…¥çš„æœ€å¤§å…ƒç´ ä¸ªæ•°ä¸º%dã€‚",x);
+                else printf("Õ»ÔÊĞí´æÈëµÄ×î´óÔªËØ¸öÊıÎª%d",siz);
                 getchar();getchar();
                 break;
                 case 4:
-                if(int x=howMany(p)==FALSE){
-                        printf("è¯·åˆå§‹åŒ–æ ˆï¼");
+                int hwm;
+                if((hwm=howMany(p))==FALSE){
+                        printf("Çë³õÊ¼»¯Õ»£¡");
+                        getchar();getchar();
+                        break;
                 }
                 else {
-                        printf("æ ˆä¸­å…±æœ‰%dä¸ªå…ƒç´ ã€‚",x);
+                        printf("Õ»ÖĞ¹²ÓĞ%d¸öÔªËØ",hwm);
                 }
                 getchar();getchar();
                 break;
                 case 5:
-                int x,y;
-                printf("è¯·è¾“å…¥æƒ³è¾“å‡ºçš„å…ƒç´ æ¬¡åºï¼š");
-                scanf("%d",&x);
-                if(y=getelem(p,x)==FALSE){
-                        printf("è¯¥æ¬¡åºçš„æ•°ä¸å­˜åœ¨æˆ–è€…æ ˆæœªåˆå§‹åŒ–ï¼");
+                int i;
+                int glm;
+                printf("ÇëÊäÈëÏëÊä³öµÄÔªËØ´ÎĞò£º");
+                scanf("%d",&i);
+                if((glm=getelem(p,i))==FALSE){
+                        printf("¸Ã´ÎĞòµÄÊı²»´æÔÚ»òÕßÕ»Î´³õÊ¼»¯£¡");
+                        getchar();getchar();
+                        break;
                 }
                 else {
-                        printf("ç¬¬%dä¸ªå…ƒç´ å€¼ä¸ºï¼š%dã€‚",x,y);
+                        printf("µÚ%d¸öÔªËØÖµÎª£º%d",i,glm);
                 }
                 getchar();getchar();
                 break;
                 case 6:
-                printf("è¯·è¾“å…¥è¦å…¥æ ˆçš„å…ƒç´ ï¼š");
-                scanf("%d",i);
-                if(push(p,i)==FALSE){
-                        printf("æ ˆæ»¡ï¼Œæ— æ³•å…¥æ ˆï¼");
+                int e;
+                scanf("%d",&e);
+                if(push(p,e)==ERROR){
+                        printf("Õ»Âú£¬ÎŞ·¨ÈëÕ»£¡");
+                        getchar();getchar();
+                        break;
                 }
                 else{
-                        printf("å…¥æ ˆæˆåŠŸï¼");
+                        printf("ÇëÊäÈëÒªÈëÕ»µÄÔªËØ£º");
+                        printf("ÈëÕ»³É¹¦£¡");
                 }
                 getchar();getchar();
                 break;
                 case 7:
-                if(pop(p,o)==FALSE){
-                        printf("æ ˆç©ºï¼Œæ— æ³•å‡ºæ ˆï¼");
+                int o;
+                if(pop(p,&o)==ERROR){   //²»ÓÃFLASE,ÊÇÒòÎªpopµÄÊä³öÀàĞÍ²»ÄÜÎªintĞÍ
+                        printf("Õ»¿Õ£¬ÎŞ·¨³öÕ»£¡");
+                        getchar();getchar();
+                        break;
                 }
                 else{
-                        printf("å‡ºæ ˆæˆåŠŸï¼Œå‡ºæ ˆå…ƒç´ ä¸ºï¼š%d",o);
+                        printf("³öÕ»³É¹¦£¬³öÕ»ÔªËØÎª£º%d",o);
                         }
                 getchar();getchar();
                 break;
@@ -102,16 +119,15 @@ int main(){
                 break;
                 case 9:
                 if(print(p)==FALSE){
-                        printf("è¯·åˆå§‹åŒ–æ ˆï¼");
+                        printf("Çë³õÊ¼»¯Õ»£¡");
+                        getchar();getchar();
+                        break;
                 }
                 getchar();getchar();
                 break;
                 case 10:
-                if(!p){
-                        printf("æ ˆé”€æ¯æˆåŠŸï¼");
-                }
-                getchar();getchar();
-                break;
+                destroySTACK(p);
+                printf("Õ»Ïú»Ù³É¹¦£¡");
         }//switch
         }//while
         getchar();
@@ -119,12 +135,12 @@ int main(){
 }
 int initSTACK(STACK *const p, int m){
         p->elems=(elemtype*)malloc(m*sizeof(elemtype));
+        if(!p->elems){
+                exit(FALSE);
+        }
         p->max=m;
         p->pos=0;
-        if(p){
-        return OK;}
-        else{
-        return FALSE;}
+        return OK;
 }
 int initSTACK(STACK *const p, const STACK&s){
         p->elems=(elemtype*)malloc((s.max)*sizeof(elemtype));
@@ -143,37 +159,38 @@ int  size (const STACK *const p){
         }
 }
 int  howMany (const STACK *const p){
+        printf("%d",p->max);
         if(!(p->max)){
-        return FALSE;}
+                return FALSE;}
         else{
         return p->pos;
         }
 }
 int  getelem (const STACK *const p, int x){
-        if(x>p->pos||!(p->max)){     //è¿™é‡ŒæŠŠæ•°ç»„ä¸­ä¸‹è¡¨ä¸ºé›¶çš„å…ƒç´ ä½œä¸ºç¬¬ä¸€ä¸ªå…ƒç´ ï¼Œå› æ­¤xå¯ä»¥ç­‰äºpos
+        if(x<1||x>p->pos||!(p->max)){     //ÕâÀï°ÑÊı×éÖĞÏÂ±íÎªÁãµÄÔªËØ×÷ÎªµÚÒ»¸öÔªËØ£¬Òò´Ëx¿ÉÒÔµÈÓÚpos
         return FALSE;}
         else{
                 return (*(p->elems+x-1));
         }
 }
 STACK *const push(STACK *const p, int e){
-        if(p->pos>=p->max){  //max  is 1...n,while pos is 0...n-1
-                return FALSE;
+        if((p->pos)>=(p->max)){  //max  is 1...n,while pos is 0...n-1
+                return ERROR;
         }
         else {
-                *((p->elems)+(p->pos++))=e;
+                *(p->elems+(p->pos)++)=e;
         return p;
         }
  }
-STACK *const pop(STACK *const p, int &e){
+STACK *const pop(STACK *const p, int *e){
         if(p->pos<1){
-        return FALSE;}
+        return ERROR;}
         else{
-                e=*((p->elems)+(p->pos--));
+                *e=*(p->elems+(--(p->pos)));
         }
         return p;
 }
-/*STACK *const assign(STACK*const p, const STACK&s){
+/*STACK *const assign(STACK*const p, const STACK* s){
         if(p->elems==0){
                 p->elems=(elemtype*)malloc((s.max)*sizeof(elemtype));
         }
@@ -183,14 +200,17 @@ STACK *const pop(STACK *const p, int &e){
 int print(const STACK*const p){
         if(p){
         for(int i=0;i<p->pos;i++){
-                printf("%d",*(p->elems+i-1));
+                printf("%d",*(p->elems+i));
         }
         }
         else{
         return FALSE;}
 }
 void destroySTACK(STACK*const p){
-        free(p);
+        free(p->elems);
+        p->elems=NULL;
+        p->max=0;
+        p->pos=0;
 }
 
 //---------------------------------------------------------------------------
